@@ -12,6 +12,40 @@ const express = require('express')
 const port = 59353
 
 
+// Globals
+const sqlite3 = require("sqlite3").verbose();  // use sqlite
+const fs = require("fs"); // file system
+
+const dbFileName = "Flashcards.db";
+// makes the object that represents the database in our code
+const db = new sqlite3.Database(dbFileName);  // object, not database.
+
+// Initialize table.
+// If the table already exists, causes an error.
+// Fix the error by removing or renaming Flashcards.db
+const cmdStr = 'CREATE TABLE Flashcards (user INT, english TEXT, korean TEXT, seen INT, correct INT)'
+db.run(cmdStr,tableCreationCallback);
+
+// Always use the callback for database operations and print out any
+// error messages you get.
+// This database stuff is hard to debug, give yourself a fighting chance.
+function tableCreationCallback(err) {
+    if (err) {
+	console.log("Table creation error",err);
+    } else {
+	console.log("Database created");
+    }
+}
+
+function tableInsertionCallback(err) {
+    if (err) {
+	console.log("Table insertion error",err);
+    } else {
+	console.log("Data inserted.");
+    }
+}
+
+
 
 function translateHandler(req, res, next) {
     let url = req.url;
@@ -22,7 +56,7 @@ function translateHandler(req, res, next) {
         let requestObject =
             {
               "source": "en",
-              "target": "zh-CN",
+              "target": "ko",
               "q": [
                 qObj.english
               ]
@@ -47,6 +81,7 @@ function translateHandler(req, res, next) {
                     console.log(JSON.stringify(APIresBody, undefined, 2));
                     // print it out as a string, nicely formatted
 
+                    // response
                     res.json({"English" : qObj.english, "Korean" : APIresBody.data.translations[0].translatedText});
                 }
             }
@@ -72,6 +107,23 @@ function translateHandler(req, res, next) {
     }
 }
 
+
+function storeHandler(req, res, next) {
+    let url = req.url;
+    let qObj = req.query;
+    console.log(qObj);
+    if(qObj.english != undefined && qObj.korean != undefined) {
+      let eng = qObj.english;
+      let kor = qObj.korean;
+      // database command
+      const cmdInsertStr = 'INSERT into Flashcards (user, english, korean, seen, correct) VALUES (1, @0, @1, 0, 0)';
+      db.run(cmdInsertStr, eng, kor, tableInsertionCallback);
+      res.json({});
+    } else {
+      next();
+    }
+}
+
 function fileNotFound(req, res) {
     let url = req.url;
     res.type('text/plain');
@@ -82,40 +134,8 @@ function fileNotFound(req, res) {
 // put together the server pipeline
 const app = express()
 app.use(express.static('public'));  // can I find a static file?
-app.get('/translate', translateHandler);   // if not, is it a valid query?
+app.get('/store', storeHandler);   // if not, is it a valid translate?
+app.get('/translate', translateHandler);   // if not, is it a valid translate?
 app.use( fileNotFound );            // otherwise not found
 
 app.listen(port, function (){console.log('Listening...');} )
-
-
-
-
-// API
-
-// function issueAPIrequest(entext) {
-//
-//   let requestObject =
-//       {
-//         "source": "en",
-//         "target": "ko",
-//         "q": [
-//           entext
-//         ]
-//       }
-//   console.log("English phrase: ", requestObject.q[0]);
-//
-//
-//   // The call that makes a request to the API
-//   // Uses the Node request module, which packs up and sends off
-//   // an HTTP message containing the request to the API server
-//   APIrequest(
-//   	{ // HTTP header stuff
-//   	    url: apiurl,
-//   	    method: "POST",
-//   	    headers: {"content-type": "application/json"},
-//   	    // will turn the given object into JSON
-//   	    json: requestObject	},
-//   	// callback function for API request
-//   	APIcallback
-//       );
-// }
