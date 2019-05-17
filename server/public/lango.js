@@ -18,11 +18,31 @@ function GoMainPage() {
 	ReactDOM.render(main_page, document.getElementById('root'));
 }
 
-// An element to go into the DOM
+// Elements to go into the DOM
 var lango = React.createElement(
 	'h1',
 	{ id: 'logo' },
 	'Lango!'
+);
+
+var start_review = React.createElement(
+	'div',
+	{ className: 'purplebutton' },
+	'Start Review'
+);
+
+var cannot_see = React.createElement(
+	'div',
+	{ id: 'cannotsee', className: 'purplebutton' },
+	'End Review'
+);
+
+var main_top_div = React.createElement(
+	'div',
+	{ id: 'maintopdiv' },
+	start_review,
+	lango,
+	cannot_see
 );
 
 // A component - function that returns some elements
@@ -30,7 +50,7 @@ function MainEnglishCard() {
 	return React.createElement(
 		'div',
 		{ className: 'textCard' },
-		React.createElement('textarea', { id: 'mainLeft', onKeyPress: MainLeftReturn })
+		React.createElement('textarea', { id: 'mainLeft', placeholder: 'English', onKeyPress: MainLeftReturn })
 	);
 }
 
@@ -42,7 +62,7 @@ function MainTranslationCard() {
 		React.createElement(
 			'p',
 			{ id: 'mainRight' },
-			'Hello, world!'
+			'Translation'
 		)
 	);
 }
@@ -54,15 +74,21 @@ function MainLeftReturn(event) {
 	}
 }
 
+var main_cards_div = React.createElement(
+	'div',
+	{ id: 'maincardsdiv' },
+	React.createElement(MainEnglishCard, null),
+	React.createElement(MainTranslationCard, null)
+);
+
 // An element with some contents, including a variable
 // that has to be evaluated to get an element, and some
 // functions that have to be run to get elements.
 var main_page = React.createElement(
 	'main',
 	null,
-	lango,
-	React.createElement(MainEnglishCard, null),
-	React.createElement(MainTranslationCard, null)
+	main_top_div,
+	main_cards_div
 );
 
 // Default render : landing page

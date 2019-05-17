@@ -18,20 +18,28 @@ function GoMainPage() {
 			);
 		}
 
-// An element to go into the DOM
+// Elements to go into the DOM
 const lango = <h1 id="logo">Lango!</h1>;
+
+const start_review = <div className="purplebutton">Start Review</div>
+
+const cannot_see = <div id="cannotsee" className="purplebutton">End Review</div>
+
+const main_top_div = (
+		<div id="maintopdiv">{start_review}{lango}{cannot_see}</div>
+);
 
 // A component - function that returns some elements
 function MainEnglishCard() {
 	 return (<div className="textCard">
-	 <textarea id="mainLeft" onKeyPress={MainLeftReturn} />
+	 <textarea id="mainLeft" placeholder="English" onKeyPress={MainLeftReturn} />
 	 </div>);
 	 }
 
 // Another component
 function MainTranslationCard() {
          return (<div className="textCard">
-				 			<p id="mainRight">Hello, world!</p>
+				 			<p id="mainRight">Translation</p>
 		  </div>);
             }
 
@@ -42,13 +50,19 @@ function MainLeftReturn(event) {
 		}
 }
 
+const main_cards_div = (
+		<div id="maincardsdiv">
+		<MainEnglishCard />
+		<MainTranslationCard />
+		</div>
+);
+
 // An element with some contents, including a variable
 // that has to be evaluated to get an element, and some
 // functions that have to be run to get elements.
 const main_page = (<main>
-		{lango}
-	      	<MainEnglishCard />
-	      	<MainTranslationCard />
+		{main_top_div}
+		{main_cards_div}
 	      </main>
 	     );
 
@@ -66,7 +80,7 @@ ReactDOM.render(
 // When the charCode is 13, the user has hit the return key
 function checkReturn(event) {
 	 console.log(event.charCode);
-	 }
+}
 
 
 
