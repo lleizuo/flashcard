@@ -112,5 +112,5 @@ function makeTranslateRequest() {
 }
 
 function updateMainRight(object) {
-	document.getElementById("mainRight").textContent = object.data.translations[0].translatedText;
+	document.getElementById("mainRight").textContent = object.Korean;
 }
