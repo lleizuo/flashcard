@@ -81,6 +81,24 @@ var main_cards_div = React.createElement(
 	React.createElement(MainTranslationCard, null)
 );
 
+var main_save_div = React.createElement(
+	'div',
+	{ id: 'mainsavediv' },
+	React.createElement(
+		'div',
+		{ className: 'greenbutton' },
+		'Save'
+	)
+);
+
+var username = "UserName";
+
+var bottom = React.createElement(
+	'div',
+	{ id: 'bottom' },
+	username
+);
+
 // An element with some contents, including a variable
 // that has to be evaluated to get an element, and some
 // functions that have to be run to get elements.
@@ -88,7 +106,9 @@ var main_page = React.createElement(
 	'main',
 	null,
 	main_top_div,
-	main_cards_div
+	main_cards_div,
+	main_save_div,
+	bottom
 );
 
 // Default render : landing page

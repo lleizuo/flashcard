@@ -57,12 +57,26 @@ const main_cards_div = (
 		</div>
 );
 
+const main_save_div = (
+		<div id="mainsavediv">
+				<div className="greenbutton">
+						Save
+				</div>
+		</div>
+);
+
+const username = "UserName";
+
+const bottom = (<div id="bottom">{username}</div>);
+
 // An element with some contents, including a variable
 // that has to be evaluated to get an element, and some
 // functions that have to be run to get elements.
 const main_page = (<main>
 		{main_top_div}
 		{main_cards_div}
+		{main_save_div}
+		{bottom}
 	      </main>
 	     );
 
