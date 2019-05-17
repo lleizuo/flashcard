@@ -26,7 +26,6 @@ textarea {
     border: none;
     font-size: 2em;
     font-family: helvetica;
-    display: center;
     text-align: center;
 }
 
@@ -49,15 +48,16 @@ textarea {
   color: #ffffff;
   background-color: #606B9B;
   font-size: 1.4em;
-  padding-top: 15px;
-  padding-bottom: 15px;
-  padding-left: 10px;
-  padding-right: 10px;
+  padding-top: 25px;
+  padding-bottom: 25px;
   border-radius: 10px;
+  width: 20vw;
+  text-align: center;
 }
 
 #cannotsee {
   background-color: #ffffff;
+  width: 15vw;
 }
 
 #maincardsdiv {
@@ -102,6 +102,47 @@ textarea {
 }
 
 #mainsavediv {
+  height: 16vh;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: row-reverse;
+  padding-right: 10vw;
+  padding-left: 10vw;
+}
+
+#answertopdiv {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  height: 17vh;
+}
+
+#answercardsdiv {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  height: 60vh;
+}
+
+#answer1 {
+  height: 38.28vh;
+  font-size: 2em;
+  font-family: helvetica;
+}
+
+#answer2 {
+  height: 11.72vh;
+  justify-content: flex-start;
+}
+
+#answerguesscard {
+  text-align: left;
+  padding-left: 20px;
+}
+
+#answernextdiv {
   height: 16vh;
   display: flex;
   align-items: center;

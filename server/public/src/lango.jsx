@@ -21,7 +21,7 @@ function GoMainPage() {
 // Elements to go into the DOM
 const lango = <h1 id="logo">Lango!</h1>;
 
-const start_review = <div className="purplebutton">Start Review</div>
+const start_review = <div className="purplebutton" onClick={GoAnswerPage}>Start Review</div>
 
 const cannot_see = <div id="cannotsee" className="purplebutton">End Review</div>
 
@@ -29,14 +29,12 @@ const main_top_div = (
 		<div id="maintopdiv">{start_review}{lango}{cannot_see}</div>
 );
 
-// A component - function that returns some elements
 function MainEnglishCard() {
 	 return (<div className="textCard">
 	 <textarea id="mainLeft" placeholder="English" onKeyPress={MainLeftReturn} />
 	 </div>);
 	 }
 
-// Another component
 function MainTranslationCard() {
          return (<div className="textCard">
 				 			<p id="mainRight">Translation</p>
@@ -79,6 +77,62 @@ const main_page = (<main>
 		{bottom}
 	      </main>
 	     );
+
+
+// Answer page
+
+function GoAnswerPage() {
+			ReactDOM.render(
+			    answer_page,
+			    document.getElementById('root')
+			);
+		}
+
+
+const add = <div className="purplebutton" onClick={GoMainPage}> Add </div>
+
+const answer_top_div = (
+				<div id="answertopdiv">{add}{lango}{cannot_see}</div>
+);
+
+const answer_cards_div = (
+		<div id="answercardsdiv">
+		<AnswerTargetCard />
+		<AnswerGuessCard />
+		</div>
+);
+
+function AnswerTargetCard() {
+	 return (<div id="answer1" className="textCard">
+			 <p id="answertargetcard">Korean Word</p>
+			 		</div>);
+	 }
+
+function AnswerGuessCard() {
+	return (<div id="answer2" className="textCard">
+	<textarea id="answerguesscard" placeholder="Try here!"/>
+	</div>);
+}
+
+
+const answer_next_div = (
+		<div id="answernextdiv">
+				<div className="greenbutton">
+						Next
+				</div>
+		</div>
+);
+
+const answer_page = (
+		<main>
+				{answer_top_div}
+				{answer_cards_div}
+				{answer_next_div}
+				{bottom}
+		</main>
+);
+
+
 
 
 
