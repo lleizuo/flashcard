@@ -1,5 +1,9 @@
 'use strict';
 
+var last_time_english = undefined;
+
+var last_time_korean = undefined;
+
 // Landing Page
 
 var landing_page = React.createElement(
@@ -84,7 +88,7 @@ var main_save_div = React.createElement(
 		{ id: 'mainsavediv' },
 		React.createElement(
 				'div',
-				{ className: 'greenbutton' },
+				{ className: 'greenbutton', onClick: makeStoreRequest },
 				'Save'
 		)
 );
@@ -113,6 +117,8 @@ var main_page = React.createElement(
 
 function GoAnswerPage() {
 		ReactDOM.render(answer_page, document.getElementById('root'));
+		last_time_korean = undefined;
+		last_time_english = undefined;
 }
 
 var add = React.createElement(
@@ -198,7 +204,7 @@ function createCORSRequest(method, url) {
 // Make the actual CORS request.
 function makeTranslateRequest() {
 
-		var url = "http://server162.site:59353/translate?english=" + document.getElementById("mainLeft").value;
+		var url = "/translate?english=" + document.getElementById("mainLeft").value;
 
 		var xhr = createCORSRequest('GET', url);
 
@@ -213,6 +219,7 @@ function makeTranslateRequest() {
 				var responseStr = xhr.responseText; // get the JSON string
 				var object = JSON.parse(responseStr); // turn it into an object
 				console.log(JSON.stringify(object, undefined, 2)); // print it out as a string, nicely formatted
+				last_time_english = document.getElementById("mainLeft").value;
 				updateMainRight(object);
 		};
 
@@ -226,4 +233,38 @@ function makeTranslateRequest() {
 
 function updateMainRight(object) {
 		document.getElementById("mainRight").textContent = object.Korean;
+		last_time_korean = object.Korean;
+}
+
+// Make the actual CORS request.
+function makeStoreRequest() {
+
+		if (last_time_english == undefined && last_time_korean == undefined) {
+				alert("You did not even enter a word!");
+				return;
+		}
+
+		var url = "/store?english=" + last_time_english + "&korean=" + last_time_korean;
+
+		var xhr = createCORSRequest('GET', url);
+
+		// checking if browser does CORS
+		if (!xhr) {
+				alert('CORS not supported');
+				return;
+		}
+
+		// Load some functions into response handlers.
+		xhr.onload = function () {
+				var responseStr = xhr.responseText; // get the JSON string
+				var object = JSON.parse(responseStr); // turn it into an object
+				console.log(JSON.stringify(object, undefined, 2)); // print it out as a string, nicely formatted
+		};
+
+		xhr.onerror = function () {
+				alert('Woops, there was an error making the request.');
+		};
+
+		// Actually send request to server
+		xhr.send();
 }

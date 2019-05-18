@@ -1,5 +1,9 @@
 'use strict';
 
+let last_time_english = undefined;
+
+let last_time_korean = undefined;
+
 // Landing Page
 
 const landing_page = (<main>
@@ -57,7 +61,7 @@ const main_cards_div = (
 
 const main_save_div = (
 		<div id="mainsavediv">
-				<div className="greenbutton">
+				<div className="greenbutton" onClick={makeStoreRequest}>
 						Save
 				</div>
 		</div>
@@ -86,6 +90,8 @@ function GoAnswerPage() {
 			    answer_page,
 			    document.getElementById('root')
 			);
+			last_time_korean = undefined;
+			last_time_english = undefined;
 		}
 
 
@@ -166,10 +172,10 @@ function createCORSRequest(method, url) {
 	   return xhr;
 }
 
-	 // Make the actual CORS request.
+// Make the actual CORS request.
 function makeTranslateRequest() {
 
-	   let url = "http://server162.site:59353/translate?english=" + document.getElementById("mainLeft").value;
+	   let url = "/translate?english=" + document.getElementById("mainLeft").value;
 
 	   let xhr = createCORSRequest('GET', url);
 
@@ -184,7 +190,8 @@ function makeTranslateRequest() {
 	       let responseStr = xhr.responseText;  // get the JSON string
 	       let object = JSON.parse(responseStr);  // turn it into an object
 	       console.log(JSON.stringify(object, undefined, 2));  // print it out as a string, nicely formatted
-	       updateMainRight(object);
+				 last_time_english = document.getElementById("mainLeft").value;
+				 updateMainRight(object);
 	   };
 
 	   xhr.onerror = function() {
@@ -197,4 +204,38 @@ function makeTranslateRequest() {
 
 function updateMainRight(object) {
 	     document.getElementById("mainRight").textContent = object.Korean;
+			 last_time_korean = object.Korean;
+}
+
+// Make the actual CORS request.
+function makeStoreRequest() {
+
+	if(last_time_english == undefined && last_time_korean == undefined) {
+			alert("You did not even enter a word!");
+			return;
+	}
+
+	let url = "/store?english=" + last_time_english + "&korean=" + last_time_korean;
+
+	let xhr = createCORSRequest('GET', url);
+
+	// checking if browser does CORS
+	if (!xhr) {
+		alert('CORS not supported');
+		return;
+	}
+
+	// Load some functions into response handlers.
+	xhr.onload = function() {
+			let responseStr = xhr.responseText;  // get the JSON string
+			let object = JSON.parse(responseStr);  // turn it into an object
+			console.log(JSON.stringify(object, undefined, 2));  // print it out as a string, nicely formatted
+	};
+
+	xhr.onerror = function() {
+		alert('Woops, there was an error making the request.');
+	};
+
+	// Actually send request to server
+	xhr.send();
 }

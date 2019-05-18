@@ -155,8 +155,8 @@ textarea {
 
 #refresh {
   position: absolute;
-  top: 0;
-  right: 40px;
+  top: 15px;
+  right: 30px;
   height: 8.33vh;
   width: 8.33vw;
 }
