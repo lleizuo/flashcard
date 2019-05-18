@@ -130,6 +130,7 @@ textarea {
   height: 38.28vh;
   font-size: 2em;
   font-family: helvetica;
+  position: relative;
 }
 
 #answer2 {
@@ -150,4 +151,12 @@ textarea {
   flex-direction: row-reverse;
   padding-right: 10vw;
   padding-left: 10vw;
+}
+
+#refresh {
+  position: absolute;
+  top: 0;
+  right: 40px;
+  height: 8.33vh;
+  width: 8.33vw;
 }

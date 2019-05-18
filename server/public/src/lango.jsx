@@ -95,6 +95,8 @@ const answer_top_div = (
 				<div id="answertopdiv">{add}{lango}{cannot_see}</div>
 );
 
+const refresh = <img id="refresh" src={'./assets/noun_Refresh_2310283.svg'}/>
+
 const answer_cards_div = (
 		<div id="answercardsdiv">
 		<AnswerTargetCard />
@@ -104,6 +106,7 @@ const answer_cards_div = (
 
 function AnswerTargetCard() {
 	 return (<div id="answer1" className="textCard">
+	 			{refresh}
 			 <p id="answertargetcard">Korean Word</p>
 			 		</div>);
 	 }

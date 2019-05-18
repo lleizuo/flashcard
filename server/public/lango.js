@@ -129,6 +129,8 @@ var answer_top_div = React.createElement(
 		cannot_see
 );
 
+var refresh = React.createElement('img', { id: 'refresh', src: './assets/noun_Refresh_2310283.svg' });
+
 var answer_cards_div = React.createElement(
 		'div',
 		{ id: 'answercardsdiv' },
@@ -140,6 +142,7 @@ function AnswerTargetCard() {
 		return React.createElement(
 				'div',
 				{ id: 'answer1', className: 'textCard' },
+				refresh,
 				React.createElement(
 						'p',
 						{ id: 'answertargetcard' },
