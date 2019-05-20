@@ -159,8 +159,8 @@ textarea {
 
 #refresh {
   position: absolute;
-  top: 15px;
-  right: 30px;
+  top: 5px;
+  right: 10px;
   height: 8.33vh;
   width: 8.33vw;
 }
@@ -169,7 +169,49 @@ textarea {
 
 #maincardsdiv {
   flex-direction: row;
+  padding-left: 5vw;
+  padding-right: 5vw;
 }
+
+div.textCard {
+  height: 35vh;
+  width: 42vw;
+}
+
+#mainsavediv {
+  padding-left: 6vw;
+  padding-right: 6vw;
+}
+
+.greenbutton {
+  width: 20.83vw;
+  font-size: 1.5em;
+}
+
+#mainLeft {
+  padding-top: 30px;
+}
+
+textarea {
+  font-size: 1.8em;
+}
+
+#logo {
+  font-size: 4.2em;
+}
+
+.purplebutton {
+  font-size: 1.5em;
+}
+
+#mainRight {
+  font-size: 1.8em;
+}
+
+#bottom {
+  font-size: 1.5em;
+}
+
 
 
 }
