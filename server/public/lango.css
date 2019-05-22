@@ -59,6 +59,7 @@ textarea {
   border-radius: 4px;
   width: 24vw;
   text-align: center;
+  font-weight: 300;
 }
 
 #cannotsee {
@@ -103,6 +104,7 @@ textarea {
   border-radius: 4px;
   width: 26vw;
   text-align: center;
+  font-weight: 300;
 }
 
 #mainsavediv {
@@ -186,6 +188,9 @@ div.textCard {
 .greenbutton {
   width: 20.83vw;
   font-size: 1.5em;
+  border-radius: 8px;
+  padding-top: 12px;
+  padding-bottom: 12px;
 }
 
 #mainLeft {
@@ -202,6 +207,9 @@ textarea {
 
 .purplebutton {
   font-size: 1.5em;
+  border-radius: 8px;
+  padding-top: 12px;
+  padding-bottom: 12px;
 }
 
 #mainRight {
@@ -210,6 +218,73 @@ textarea {
 
 #bottom {
   font-size: 1.5em;
+}
+
+
+#answer1 {
+  width: 78.33vw;
+  font-size: 1.8em;
+}
+
+#answer2 {
+  width: 78.33vw;
+}
+
+#bottom {
+  font-weight: 300;
+}
+
+}
+
+
+@media only screen and (min-width: 900px) {
+
+.purplebutton {
+  width: 16vw;
+}
+
+div.textCard {
+  height: 45.31vh;
+  width: 31.30vw;
+}
+
+#maincardsdiv {
+  padding-left: 15vw;
+  padding-right: 15vw;
+}
+
+#mainsavediv {
+  padding-left: 17vw;
+  padding-right: 17vw;
+}
+
+#maintopdiv {
+  justify-content: space-between;
+  padding-left: 6.08vw;
+  padding-right: 6.08vw;
+}
+
+.greenbutton {
+  width: 11.7vw;
+}
+
+#answertopdiv {
+  justify-content: space-between;
+  padding-left: 6.08vw;
+  padding-right: 6.08vw;
+}
+
+#answer1 {
+  width: 53.5vw;
+}
+
+#answer2 {
+  width: 53.5vw;
+}
+
+#answernextdiv {
+  padding-left: 24vw;
+  padding-right: 24vw;
 }
 
 
