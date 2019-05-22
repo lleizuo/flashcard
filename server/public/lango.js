@@ -6,44 +6,81 @@ var last_time_korean = undefined;
 
 // Landing Page
 
-var landing_page = React.createElement(
-		'main',
-		null,
+var welcome = React.createElement(
+		"div",
+		{ className: "welcomeText" },
+		" Welcome to Lango! "
+);
+var customize = React.createElement(
+		"div",
+		{ className: "customizeVocab" },
+		" Customize your vocabulary "
+);
+var landing_page_top = React.createElement(
+		"div",
+		{ id: "landingPageTop" },
+		" ",
+		welcome,
+		customize
+);
+var green = React.createElement(
+		"div",
+		{ className: "greenBar", onClick: GoMainPage },
+		"   ",
+		React.createElement("img", { id: "googleImg", src: './assets/google.jpg' }),
+		" ",
 		React.createElement(
-				'p',
-				{ onClick: GoMainPage },
-				'Click!'
-		)
+				"div",
+				{ id: "logInText" },
+				" Log in with Google "
+		),
+		" "
+);
+var landing_page_bottom = React.createElement(
+		"div",
+		{ id: "landingPageBottom" },
+		" ",
+		green,
+		" "
+);
+
+var landing_page = React.createElement(
+		"main",
+		null,
+		landing_page_top,
+		landing_page_bottom
 );
 
 // Main Page
 
 function GoMainPage() {
+		var x = document.getElementsByTagName("main")[0];
+		x.style.flexDirection = "column";
 		ReactDOM.render(main_page, document.getElementById('root'));
 }
 
 // Elements to go into the DOM
 var lango = React.createElement(
-		'h1',
-		{ id: 'logo' },
-		'Lango!'
+		"h1",
+		{ id: "logo" },
+		"Lango!"
 );
 
 var start_review = React.createElement(
-		'div',
-		{ className: 'purplebutton', onClick: GoAnswerPage },
-		'Start Review'
+		"div",
+		{ className: "purplebutton", onClick: GoAnswerPage },
+		"Start Review"
 );
 
 var cannot_see = React.createElement(
-		'div',
-		{ id: 'cannotsee', className: 'purplebutton' },
-		'End Review'
+		"div",
+		{ id: "cannotsee", className: "purplebutton" },
+		"End Review"
 );
 
 var main_top_div = React.createElement(
-		'div',
-		{ id: 'maintopdiv' },
+		"div",
+		{ id: "maintopdiv" },
 		start_review,
 		lango,
 		cannot_see
@@ -51,20 +88,20 @@ var main_top_div = React.createElement(
 
 function MainEnglishCard() {
 		return React.createElement(
-				'div',
-				{ className: 'textCard' },
-				React.createElement('textarea', { id: 'mainLeft', placeholder: 'English', onKeyPress: MainLeftReturn })
+				"div",
+				{ className: "textCard" },
+				React.createElement("textarea", { id: "mainLeft", placeholder: "English", onKeyPress: MainLeftReturn })
 		);
 }
 
 function MainTranslationCard() {
 		return React.createElement(
-				'div',
-				{ className: 'textCard' },
+				"div",
+				{ className: "textCard" },
 				React.createElement(
-						'p',
-						{ id: 'mainRight' },
-						'Translation'
+						"p",
+						{ id: "mainRight" },
+						"Translation"
 				)
 		);
 }
@@ -77,27 +114,27 @@ function MainLeftReturn(event) {
 }
 
 var main_cards_div = React.createElement(
-		'div',
-		{ id: 'maincardsdiv' },
+		"div",
+		{ id: "maincardsdiv" },
 		React.createElement(MainEnglishCard, null),
 		React.createElement(MainTranslationCard, null)
 );
 
 var main_save_div = React.createElement(
-		'div',
-		{ id: 'mainsavediv' },
+		"div",
+		{ id: "mainsavediv" },
 		React.createElement(
-				'div',
-				{ className: 'greenbutton', onClick: makeStoreRequest },
-				'Save'
+				"div",
+				{ className: "greenbutton", onClick: makeStoreRequest },
+				"Save"
 		)
 );
 
 var username = "UserName";
 
 var bottom = React.createElement(
-		'div',
-		{ id: 'bottom' },
+		"div",
+		{ id: "bottom" },
 		username
 );
 
@@ -105,7 +142,7 @@ var bottom = React.createElement(
 // that has to be evaluated to get an element, and some
 // functions that have to be run to get elements.
 var main_page = React.createElement(
-		'main',
+		"main",
 		null,
 		main_top_div,
 		main_cards_div,
@@ -122,61 +159,61 @@ function GoAnswerPage() {
 }
 
 var add = React.createElement(
-		'div',
-		{ className: 'purplebutton', onClick: GoMainPage },
-		' Add '
+		"div",
+		{ className: "purplebutton", onClick: GoMainPage },
+		" Add "
 );
 
 var answer_top_div = React.createElement(
-		'div',
-		{ id: 'answertopdiv' },
+		"div",
+		{ id: "answertopdiv" },
 		add,
 		lango,
 		cannot_see
 );
 
-var refresh = React.createElement('img', { id: 'refresh', src: './assets/noun_Refresh_2310283.svg' });
+var refresh = React.createElement("img", { id: "refresh", src: './assets/noun_Refresh_2310283.svg' });
 
 var answer_cards_div = React.createElement(
-		'div',
-		{ id: 'answercardsdiv' },
+		"div",
+		{ id: "answercardsdiv" },
 		React.createElement(AnswerTargetCard, null),
 		React.createElement(AnswerGuessCard, null)
 );
 
 function AnswerTargetCard() {
 		return React.createElement(
-				'div',
-				{ id: 'answer1', className: 'textCard' },
+				"div",
+				{ id: "answer1", className: "textCard" },
 				refresh,
 				React.createElement(
-						'p',
-						{ id: 'answertargetcard' },
-						'Korean Word'
+						"p",
+						{ id: "answertargetcard" },
+						"Korean Word"
 				)
 		);
 }
 
 function AnswerGuessCard() {
 		return React.createElement(
-				'div',
-				{ id: 'answer2', className: 'textCard' },
-				React.createElement('textarea', { id: 'answerguesscard', placeholder: 'Try here!' })
+				"div",
+				{ id: "answer2", className: "textCard" },
+				React.createElement("textarea", { id: "answerguesscard", placeholder: "Try here!" })
 		);
 }
 
 var answer_next_div = React.createElement(
-		'div',
-		{ id: 'answernextdiv' },
+		"div",
+		{ id: "answernextdiv" },
 		React.createElement(
-				'div',
-				{ className: 'greenbutton' },
-				'Next'
+				"div",
+				{ className: "greenbutton" },
+				"Next"
 		)
 );
 
 var answer_page = React.createElement(
-		'main',
+		"main",
 		null,
 		answer_top_div,
 		answer_cards_div,

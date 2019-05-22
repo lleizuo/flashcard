@@ -6,16 +6,26 @@ let last_time_korean = undefined;
 
 // Landing Page
 
+const welcome = <div className = "welcomeText"> Welcome to Lango! </div>
+const customize = <div className = "customizeVocab"> Customize your vocabulary </div>
+const landing_page_top = (
+    <div id = "landingPageTop"> {welcome}{customize}</div>
+);
+const green = (<div className = "greenBar" onClick = {GoMainPage}>   <img id = "googleImg" src = {'./assets/google.jpg'}/> <div id = "logInText"> Log in with Google </div> </div>);
+const landing_page_bottom = (
+    <div id = "landingPageBottom"> {green} </div>
+);
+
 const landing_page = (<main>
-				<p onClick={GoMainPage}>Click!</p>
-
-
-
-		</main>);
+                {landing_page_top}
+                {landing_page_bottom}
+        </main>);
 
 // Main Page
 
 function GoMainPage() {
+			let x = document.getElementsByTagName("main")[0];
+			x.style.flexDirection = "column";
 			ReactDOM.render(
 			    main_page,
 			    document.getElementById('root')
