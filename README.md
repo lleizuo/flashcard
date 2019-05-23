@@ -1,8 +1,8 @@
 # flashcard
 
 ## Contributors
-Lei Zuo \s
-Jasmine Rattan \s
+Lei Zuo \s\s
+Jasmine Rattan \s\s
 Karishma Tangella
 
 ## Run server code
