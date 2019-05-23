@@ -276,8 +276,13 @@ function updateMainRight(object) {
 // Make the actual CORS request.
 function makeStoreRequest() {
 
-		if (last_time_english == undefined && last_time_korean == undefined) {
+		if (last_time_english == undefined || last_time_korean == undefined) {
 				alert("You did not even enter a word!");
+				return;
+		}
+
+		if (last_time_english.trim() == "" || last_time_korean.trim() == "") {
+				alert("Empty is not allowed!");
 				return;
 		}
 

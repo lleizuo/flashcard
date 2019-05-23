@@ -136,7 +136,8 @@ function fileNotFound(req, res) {
     res.send('Cannot find '+url);
     }
 
-process.on('exit', function(){db.close();}); // Close database on exiting the terminal
+process.on('exit', function(){console.log("Exiting the terminal!");
+  db.close();}); // Close database on exiting the terminal
 
 // put together the server pipeline
 const app = express()
