@@ -42,9 +42,14 @@ function tableInsertionCallback(err) {
 	console.log("Table insertion error",err);
     } else {
 	console.log("Data inserted.");
+  dumpDB();
     }
 }
 
+dumpDB() {
+    db.all ( 'SELECT * FROM Flashcards', dataCallback);
+    function dataCallback( err, data ) {console.log(data)}
+}
 
 
 function translateHandler(req, res, next) {
@@ -130,6 +135,8 @@ function fileNotFound(req, res) {
     res.status(404);
     res.send('Cannot find '+url);
     }
+
+process.on('exit', function(){db.close();}); // Close database on exiting the terminal
 
 // put together the server pipeline
 const app = express()
