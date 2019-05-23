@@ -46,7 +46,7 @@ function tableInsertionCallback(err) {
     }
 }
 
-dumpDB() {
+function dumpDB() {
     db.all ( 'SELECT * FROM Flashcards', dataCallback);
     function dataCallback( err, data ) {console.log(data)}
 }
