@@ -1,8 +1,8 @@
 # flashcard
 
 ## Contributors
-Lei Zuo
-Jasmine Rattan
+Lei Zuo \s
+Jasmine Rattan \s
 Karishma Tangella
 
 ## Run server code
@@ -20,6 +20,10 @@ node fcServer.js
 ## URL
 
 [http://server162.site:59353/lango.html](http://server162.site:59353/lango.html)
+
+## Progress
+Part 1 finished. Also finished most of the mock-up. 
+
 
 ## Resource
 
