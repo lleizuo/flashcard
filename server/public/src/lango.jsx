@@ -200,7 +200,7 @@ function makeTranslateRequest() {
 	       let responseStr = xhr.responseText;  // get the JSON string
 	       let object = JSON.parse(responseStr);  // turn it into an object
 	       console.log(JSON.stringify(object, undefined, 2));  // print it out as a string, nicely formatted
-				 last_time_english = document.getElementById("mainLeft").value;
+				 last_time_english = document.getElementById("mainLeft").value.trim();
 				 updateMainRight(object);
 	   };
 
@@ -214,7 +214,7 @@ function makeTranslateRequest() {
 
 function updateMainRight(object) {
 	     document.getElementById("mainRight").textContent = object.Korean;
-			 last_time_korean = object.Korean;
+			 last_time_korean = object.Korean.trim();
 }
 
 // Make the actual CORS request.
@@ -225,7 +225,7 @@ function makeStoreRequest() {
 			return;
 	}
 
-  if(last_time_english.trim() == "" || last_time_korean.trim() == "") {
+  if(last_time_english == "" || last_time_korean == "") {
     alert("Empty is not allowed!");
     return;
   }
