@@ -27,7 +27,7 @@ Part 1 finished. Also finished most of the mock-up.
 
 ## Resource
 
-Port number: 59353 (Lei Zuo)
+Port number: 59353 (Lei Zuo)  
 Google API: AIzaSyB7HQtScB7iV0sQBeJd0yJAKlbi_1F7wRI (Jasmine Rattan)
 
 
