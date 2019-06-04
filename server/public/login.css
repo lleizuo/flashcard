@@ -1,0 +1,154 @@
+#landingPageTop{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 71.3vh;
+    background-image: linear-gradient(rgb(96, 107, 155), rgb(177, 145, 212));
+    filter: drop-shadow(0 40px 30px rgb(166, 166, 166));
+}
+.welcomeText{
+    display: flex;
+    font-size: 10vw;
+    padding-top:1em;
+    color: white;
+    font-weight: bold;
+    padding-left:1.6em;
+    font-family: 'Raleway', sans-serif;
+    padding-bottom: 0.7em;
+}
+
+.customizeVocab{
+    display: flex;
+    font-size: 5vw;
+    margin-right: 3em;
+    margin-left: 2em;
+    font-weight: 200;
+    font-family: 'Open Sans', sans-serif;
+    color: rgb(78, 202, 168);
+}
+
+#landingPageBottom{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    height: 28.7vh;
+    width:100vw;
+    background-color: white;
+}
+
+.greenBar{
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 20em;
+    height: 10vh;
+    background-color: rgb(78, 202, 168);
+}
+
+#googleImg{
+    display: flex;
+    width: 70px;
+    height:60px;
+    object-fit:cover;
+}
+
+#logInText{
+    display:flex;
+    font-size:1.5em;
+    color:white;
+    font-weight: 300;
+    font-family: helvetica;
+}
+
+@media screen and (min-width: 600px){
+    #landingPageTop{
+        height: 68.1vh;
+        width:100vw;
+    }
+    .welcomeText{
+        display: flex;
+        width: 58.2vw;
+        height:11.9vh;
+        font-size: 7.2vw;
+        padding-right:0em;
+        padding-top:0em;
+        padding-bottom: 1em;
+    }
+    .customizeVocab{
+        font-size: 3.6vw;
+        margin-right: 3em;
+        margin-left: 2em;
+    }
+    #landingPageBottom{
+        height: 31.9vh;
+        width: 100vw;
+    }
+
+    .greenBar{
+        width: 40vw;
+        height: 8.5vh;
+        background-color: rgb(78, 202, 168);
+    }
+
+    #googleImg{
+        display: flex;
+        padding-left:-2em;
+        width: 50px;
+        height:50px;
+        object-fit:cover;
+    }
+
+    #logInText{
+        font-size:2.6vw;
+        font-weight: 300;
+    }
+}
+
+@media screen and (min-width: 900px){
+    main{
+        display:flex;
+        flex-direction:row;
+        width:100vw;
+    }
+    #landingPageTop{
+        height: 100vh;
+        width:50vw;
+        filter: drop-shadow(0 70px 70px rgb(166, 166, 166));
+    }
+    .welcomeText{
+        display: flex;
+        font-size: 6vw;
+        width: 36.8vw;
+        padding-top:0em;
+        padding-left:1em;
+        padding-bottom: 1.2em;
+    }
+    .customizeVocab{
+        font-size: 2.8vw;
+        width: 36.8vw;
+        margin-right: 0em;
+        margin-left: 2.5em;
+    }
+    #landingPageBottom{
+        display: flex;
+        flex-direction: column;
+        width:50vw;
+        height:100vh;
+    }
+    .greenBar{
+        width:24.3vw;
+        height: 10vh;
+    }
+    #googleImg{
+        display: flex;
+        width: 60px;
+        height:60px;
+        object-fit:cover;
+    }
+    #logInText{
+        font-size:2vw;
+        font-weight: 200;
+    }
+}
