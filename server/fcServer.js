@@ -7,10 +7,27 @@ const http = require('http');
 const APIkey = "AIzaSyB7HQtScB7iV0sQBeJd0yJAKlbi_1F7wRI";
 const apiurl = "https://translation.googleapis.com/language/translate/v2?key="+APIkey
 
-
 const express = require('express')
 const port = 59353
 
+const passport = require('passport');
+const cookieSession = require('cookie-session');
+
+const GoogleStrategy = require('passport-google-oauth20');
+
+const googleLoginData = {
+    clientID: '144960018877-6v74ckd48030657bb1lg30b6g0io3pra.apps.googleusercontent.com',
+    clientSecret: 'CUwENqevo9xBVKBKXnWh1Syy',
+    callbackURL: '/auth/accepted'
+};
+
+// Strategy configuration.
+// Tell passport we will be using login with Google, and
+// give it our data for registering us with Google.
+// The gotProfile callback is for the server's HTTPS request
+// to Google for the user's profile information.
+// It will get used much later in the pipeline.
+passport.use( new GoogleStrategy(googleLoginData, gotProfile) );
 
 // Globals
 const sqlite3 = require("sqlite3").verbose();  // use sqlite
@@ -139,11 +156,96 @@ function fileNotFound(req, res) {
 process.on('exit', function(){console.log("Exiting the terminal!");
   db.close();}); // Close database on exiting the terminal
 
+
+
 // put together the server pipeline
 const app = express()
-app.use(express.static('public'));  // can I find a static file?
+
+// pipeline stage that just echos url, for debugging
+app.use('/', printURL);
+app.use(cookieSession({
+    maxAge: 6 * 60 * 60 * 1000, // Six hours in milliseconds
+    // meaningless random string used by encryption
+    keys: ['hanger waldo mercy dance']
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+app.get('/*',express.static('public'));
+app.get('/auth/google',
+	passport.authenticate('google',{ scope: ['profile'] }) );
+app.get('/auth/accepted',
+  	// for educational purposes
+  	function (req, res, next) {
+  	    console.log("at auth/accepted");
+  	    next();
+  	},
+  	// This will issue Server's own HTTPS request to Google
+  	// to access the user's profile information with the
+  	// temporary key we got in the request.
+  	passport.authenticate('google'),
+  	// then it will run the "gotProfile" callback function,
+  	// set up the cookie, call serialize, whose "done"
+  	// will come back here to send back the response
+  	// ...with a cookie in it for the Browser!
+  	function (req, res) {
+  	    console.log('Logged in and using cookies!')
+  	    res.redirect('/user/lango.html');
+});
+app.get('/user/*',
+    isAuthenticated, // only pass on to following function if
+    	// user is logged in
+    	// serving files that start with /user from here gets them from ./
+    	express.static('.')
+);
 app.get('/store', storeHandler);   // if not, is it a valid translate?
 app.get('/translate', translateHandler);   // if not, is it a valid translate?
 app.use( fileNotFound );            // otherwise not found
 
 app.listen(port, function (){console.log('Listening...');} )
+
+// new middleware functions
+
+function printURL (req, res, next) {
+    console.log(req.url);
+    next();
+}
+
+function isAuthenticated(req, res, next) {
+    if (req.user) {
+	console.log("Req.session:",req.session);
+	console.log("Req.user:",req.user);
+	next();
+    } else {
+	res.redirect('/login.html');  // send response telling
+	// Browser to go to login page
+    }
+}
+
+function gotProfile(accessToken, refreshToken, profile, done) {
+    console.log("Google profile",profile);
+    // here is a good place to check if user is in DB,
+    // and to store him in DB if not already there.
+    // Second arg to "done" will be passed into serializeUser,
+    // should be key to get user out of database.
+
+    let dbRowID = 1;  // temporary! Should be the real unique
+    // key for db Row for this user in DB table.
+    // Note: cannot be zero, has to be something that evaluates to
+    // True.
+
+    done(null, dbRowID);
+}
+
+passport.serializeUser((dbRowID, done) => {
+    console.log("SerializeUser. Input is",dbRowID);
+    done(null, dbRowID);
+});
+
+passport.deserializeUser((dbRowID, done) => {
+    console.log("deserializeUser. Input is:", dbRowID);
+    // here is a good place to look up user data in database using
+    // dbRowID. Put whatever you want into an object. It ends up
+    // as the property "user" of the "req" object.
+    let userData = {userData: "data from db row goes here"};
+    done(null, userData);
+});
