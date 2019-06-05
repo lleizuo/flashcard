@@ -4,53 +4,6 @@ var last_time_english = undefined;
 
 var last_time_korean = undefined;
 
-// Landing Page
-
-var welcome = React.createElement(
-		"div",
-		{ className: "welcomeText" },
-		" Welcome to Lango! "
-);
-var customize = React.createElement(
-		"div",
-		{ className: "customizeVocab" },
-		" Customize your vocabulary "
-);
-var landing_page_top = React.createElement(
-		"div",
-		{ id: "landingPageTop" },
-		" ",
-		welcome,
-		customize
-);
-var green = React.createElement(
-		"div",
-		{ className: "greenBar", onClick: GoMainPage },
-		"   ",
-		React.createElement("img", { id: "googleImg", src: './assets/google.jpg' }),
-		" ",
-		React.createElement(
-				"div",
-				{ id: "logInText" },
-				" Log in with Google "
-		),
-		" "
-);
-var landing_page_bottom = React.createElement(
-		"div",
-		{ id: "landingPageBottom" },
-		" ",
-		green,
-		" "
-);
-
-var landing_page = React.createElement(
-		"main",
-		null,
-		landing_page_top,
-		landing_page_bottom
-);
-
 // Main Page
 
 function GoMainPage() {
@@ -223,7 +176,7 @@ var answer_page = React.createElement(
 
 // Default render : landing page
 
-ReactDOM.render(landing_page, document.getElementById('root'));
+ReactDOM.render(main_page, document.getElementById('root'));
 
 // onKeyPress function for the textarea element
 // When the charCode is 13, the user has hit the return key
