@@ -20,17 +20,22 @@ var landing_page_top = React.createElement(
     customize
 );
 var green = React.createElement(
-    "div",
-    { className: "greenBar", onClick: GoLogin },
-    "   ",
-    React.createElement("img", { id: "googleImg", src: './assets/google.jpg' }),
+    "a",
+    { href: "../auth/google" },
     " ",
     React.createElement(
         "div",
-        { id: "logInText" },
-        " Log in with Google "
+        { className: "greenBar", onClick: GoLogin },
+        React.createElement("img", { id: "googleImg", src: './assets/google.jpg' }),
+        " ",
+        React.createElement(
+            "div",
+            { id: "logInText" },
+            " Log in with Google "
+        ),
+        " "
     ),
-    " "
+    "  "
 );
 var landing_page_bottom = React.createElement(
     "div",

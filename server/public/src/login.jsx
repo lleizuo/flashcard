@@ -7,7 +7,7 @@ const customize = <div className = "customizeVocab"> Customize your vocabulary <
 const landing_page_top = (
     <div id = "landingPageTop"> {welcome}{customize}</div>
 );
-const green = (<div className = "greenBar" onClick = {GoLogin}>   <img id = "googleImg" src = {'./assets/google.jpg'}/> <div id = "logInText"> Log in with Google </div> </div>);
+const green = (<a href="../auth/google"> <div className = "greenBar" onClick = {GoLogin}><img id = "googleImg" src = {'./assets/google.jpg'}/> <div id = "logInText"> Log in with Google </div> </div>  </a>);
 const landing_page_bottom = (
     <div id = "landingPageBottom"> {green} </div>
 );
