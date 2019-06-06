@@ -245,8 +245,6 @@ function gotProfile(accessToken, refreshToken, profile, done) {
     let id = profile.id;
     userdb.all ( 'SELECT * FROM Users WHERE id = ' + id, dataCallback);
     function dataCallback( err, data ) {
-      console.log(err)
-      console.log(data)
       if(data.length == 0) {
         let firstname = profile.name.givenName;
         let lastname = profile.name.familyName;
@@ -273,6 +271,14 @@ passport.deserializeUser((dbRowID, done) => {
     // here is a good place to look up user data in database using
     // dbRowID. Put whatever you want into an object. It ends up
     // as the property "user" of the "req" object.
-    let userData = {userData: "data from db row goes here"};
-    done(null, userData);
+    let userData = {gid:0,thedata: "data from db row goes here"};
+
+    db.all ( 'SELECT * FROM Flashcards WHERE user = ' + dbRowID, dataCallback);
+    function dataCallback( err, data ) {
+        console.log(err)
+        userData.gid = dbRowID;
+        userData.thedata = data;
+        done(null, userData);
+    }
+
 });
