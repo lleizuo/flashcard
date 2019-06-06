@@ -37,11 +37,20 @@ const dbFileName = "Flashcards.db";
 // makes the object that represents the database in our code
 const db = new sqlite3.Database(dbFileName);  // object, not database.
 
+
+const userdbFileName = "Users.db";
+// makes the object that represents the database in our code
+const userdb = new sqlite3.Database(userdbFileName);  // object, not database.
+
+
 // Initialize table.
 // If the table already exists, causes an error.
 // Fix the error by removing or renaming Flashcards.db
 const cmdStr = 'CREATE TABLE Flashcards (user INT, english TEXT, korean TEXT, seen INT, correct INT)'
 db.run(cmdStr,tableCreationCallback);
+
+const usercmdStr = 'CREATE TABLE Users (id INT, lastname varchar(255), firstname varchar(255), PRIMARY KEY (ID))'
+userdb.run(usercmdStr,tableCreationCallback);
 
 // Always use the callback for database operations and print out any
 // error messages you get.
@@ -60,11 +69,17 @@ function tableInsertionCallback(err) {
     } else {
 	console.log("Data inserted.");
   dumpDB();
+  userdumpDB();
     }
 }
 
 function dumpDB() {
     db.all ( 'SELECT * FROM Flashcards', dataCallback);
+    function dataCallback( err, data ) {console.log(data)}
+}
+
+function userdumpDB() {
+    userdb.all ( 'SELECT * FROM Users', dataCallback);
     function dataCallback( err, data ) {console.log(data)}
 }
 
@@ -227,8 +242,20 @@ function gotProfile(accessToken, refreshToken, profile, done) {
     // and to store him in DB if not already there.
     // Second arg to "done" will be passed into serializeUser,
     // should be key to get user out of database.
+    let id = profile.id;
+    userdb.all ( 'SELECT * FROM Users WHERE id = ' + id, dataCallback);
+    function dataCallback( err, data ) {
+      console.log(err)
+      console.log(data)
+      if(data.length == 0) {
+        let firstname = profile.name.givenName;
+        let lastname = profile.name.familyName;
+        const cmdInsertStr = 'INSERT into Users (id, lastname, firstname) VALUES (@0, @1, @2)';
+        userdb.run(cmdInsertStr, id, lastname, firstname, tableInsertionCallback);
+      }
+    }
 
-    let dbRowID = 1;  // temporary! Should be the real unique
+    let dbRowID = id;  // temporary! Should be the real unique
     // key for db Row for this user in DB table.
     // Note: cannot be zero, has to be something that evaluates to
     // True.
