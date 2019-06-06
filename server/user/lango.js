@@ -108,9 +108,13 @@ var main_page = React.createElement(
 // Answer page
 
 function GoAnswerPage() {
-		ReactDOM.render(answer_page, document.getElementById('root'));
-		last_time_korean = undefined;
-		last_time_english = undefined;
+		if (dataarray.thedata.length > 0) {
+				ReactDOM.render(answer_page, document.getElementById('root'));
+				last_time_korean = undefined;
+				last_time_english = undefined;
+		} else {
+				alert("Create some cards first before review!");
+		}
 }
 
 var add = React.createElement(
@@ -190,6 +194,34 @@ function createCORSRequest(method, url) {
 		var xhr = new XMLHttpRequest();
 		xhr.open(method, url, true); // call its open method
 		return xhr;
+}
+
+function updateLocal() {
+
+		var url = "/data";
+
+		var xhr = createCORSRequest('GET', url);
+
+		// checking if browser does CORS
+		if (!xhr) {
+				alert('CORS not supported');
+				return;
+		}
+
+		// Load some functions into response handlers.
+		xhr.onload = function () {
+				var responseStr = xhr.responseText; // get the JSON string
+				var object = JSON.parse(responseStr); // turn it into an object
+				console.log(JSON.stringify(object, undefined, 2)); // print it out as a string, nicely formatted
+				dataarray = object;
+		};
+
+		xhr.onerror = function () {
+				alert('Woops, there was an error making the request.');
+		};
+
+		// Actually send request to server
+		xhr.send();
 }
 
 function makeUsernameRequest() {
@@ -339,6 +371,7 @@ function makeStoreRequest() {
 				var responseStr = xhr.responseText; // get the JSON string
 				var object = JSON.parse(responseStr); // turn it into an object
 				console.log(JSON.stringify(object, undefined, 2)); // print it out as a string, nicely formatted
+				updateLocal();
 		};
 
 		xhr.onerror = function () {

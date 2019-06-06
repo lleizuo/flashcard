@@ -81,13 +81,17 @@ let main_page = (<main>
 // Answer page
 
 function GoAnswerPage() {
-			ReactDOM.render(
-			    answer_page,
-			    document.getElementById('root')
-			);
-			last_time_korean = undefined;
-			last_time_english = undefined;
-		}
+      if(dataarray.thedata.length > 0) {
+        ReactDOM.render(
+            answer_page,
+            document.getElementById('root')
+        );
+        last_time_korean = undefined;
+        last_time_english = undefined;
+      } else {
+        alert("Create some cards first before review!");
+      }
+}
 
 
 const add = <div className="purplebutton" onClick={GoMainPage}> Add </div>
@@ -155,6 +159,34 @@ function createCORSRequest(method, url) {
 	   let xhr = new XMLHttpRequest();
 	   xhr.open(method, url, true);  // call its open method
 	   return xhr;
+}
+
+function updateLocal() {
+
+	   let url = "/data";
+
+	   let xhr = createCORSRequest('GET', url);
+
+	   // checking if browser does CORS
+	   if (!xhr) {
+	     alert('CORS not supported');
+	     return;
+	   }
+
+	   // Load some functions into response handlers.
+	   xhr.onload = function() {
+	       let responseStr = xhr.responseText;  // get the JSON string
+	       let object = JSON.parse(responseStr);  // turn it into an object
+	       console.log(JSON.stringify(object, undefined, 2));  // print it out as a string, nicely formatted
+         dataarray = object;
+	   };
+
+	   xhr.onerror = function() {
+	     alert('Woops, there was an error making the request.');
+	   };
+
+	   // Actually send request to server
+	   xhr.send();
 }
 
 function makeUsernameRequest() {
@@ -305,6 +337,7 @@ function makeStoreRequest() {
 			let responseStr = xhr.responseText;  // get the JSON string
 			let object = JSON.parse(responseStr);  // turn it into an object
 			console.log(JSON.stringify(object, undefined, 2));  // print it out as a string, nicely formatted
+      updateLocal();
 	};
 
 	xhr.onerror = function() {
