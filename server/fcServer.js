@@ -152,9 +152,18 @@ function storeHandler(req, res, next) {
     if(qObj.english != undefined && qObj.korean != undefined) {
       let eng = qObj.english;
       let kor = qObj.korean;
-      // database command
-      const cmdInsertStr = 'INSERT into Flashcards (user, english, korean, seen, correct) VALUES (1, @0, @1, 0, 0)';
-      db.run(cmdInsertStr, eng, kor, tableInsertionCallback);
+      let existed = false;
+      let datalist = req.user.thedata;
+      for (var i = 0; i < datalist.length; i++) {
+        if(datalist[i].english == eng) {
+          existed = true;
+        }
+      }
+      if(!existed) {
+        // database command
+        const cmdInsertStr = 'INSERT into Flashcards (user, english, korean, seen, correct) VALUES (@0, @1, @2, 0, 0)';
+        db.run(cmdInsertStr, req.session.passport.user, eng, kor, tableInsertionCallback);
+      }
       res.json({});
     } else {
       next();
