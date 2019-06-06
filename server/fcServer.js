@@ -170,6 +170,10 @@ function storeHandler(req, res, next) {
     }
 }
 
+function dataGetter(req, res, next) {
+    res.json(req.user);
+}
+
 function fileNotFound(req, res) {
     let url = req.url;
     res.type('text/plain');
@@ -223,6 +227,7 @@ app.get('/user/*',
 );
 app.get('/store', storeHandler);   // if not, is it a valid translate?
 app.get('/translate', translateHandler);   // if not, is it a valid translate?
+app.get('/data', dataGetter);
 app.use( fileNotFound );            // otherwise not found
 
 app.listen(port, function (){console.log('Listening...');} )

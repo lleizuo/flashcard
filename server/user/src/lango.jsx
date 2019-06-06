@@ -4,6 +4,8 @@ let last_time_english = undefined;
 
 let last_time_korean = undefined;
 
+let dataarray = undefined;
+
 // Main Page
 
 function GoMainPage() {
@@ -135,17 +137,6 @@ const answer_page = (
 );
 
 
-
-
-
-
-// Default render : landing page
-
-ReactDOM.render(
-    main_page,
-    document.getElementById('root')
-);
-
 // onKeyPress function for the textarea element
 // When the charCode is 13, the user has hit the return key
 function checkReturn(event) {
@@ -154,7 +145,8 @@ function checkReturn(event) {
 
 
 
-
+// Beginning
+makeDataRequest();
 
 
 
@@ -163,6 +155,46 @@ function createCORSRequest(method, url) {
 	   let xhr = new XMLHttpRequest();
 	   xhr.open(method, url, true);  // call its open method
 	   return xhr;
+}
+
+// Make the actual CORS request.
+function makeDataRequest() {
+
+	   let url = "/data";
+
+	   let xhr = createCORSRequest('GET', url);
+
+	   // checking if browser does CORS
+	   if (!xhr) {
+	     alert('CORS not supported');
+	     return;
+	   }
+
+	   // Load some functions into response handlers.
+	   xhr.onload = function() {
+	       let responseStr = xhr.responseText;  // get the JSON string
+	       let object = JSON.parse(responseStr);  // turn it into an object
+	       console.log(JSON.stringify(object, undefined, 2));  // print it out as a string, nicely formatted
+         dataarray = object;
+         if(object.thedata.length == 0) {
+           ReactDOM.render(
+               main_page,
+               document.getElementById('root')
+           );
+         } else {
+           ReactDOM.render(
+               answer_page,
+               document.getElementById('root')
+           );
+         }
+	   };
+
+	   xhr.onerror = function() {
+	     alert('Woops, there was an error making the request.');
+	   };
+
+	   // Actually send request to server
+	   xhr.send();
 }
 
 // Make the actual CORS request.
