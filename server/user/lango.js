@@ -183,13 +183,63 @@ function checkReturn(event) {
 }
 
 // Beginning
-makeDataRequest();
+makeUsernameRequest();
 
 // Create the XHR object.
 function createCORSRequest(method, url) {
 		var xhr = new XMLHttpRequest();
 		xhr.open(method, url, true); // call its open method
 		return xhr;
+}
+
+function makeUsernameRequest() {
+
+		var url = "/username";
+
+		var xhr = createCORSRequest('GET', url);
+
+		// checking if browser does CORS
+		if (!xhr) {
+				alert('CORS not supported');
+				return;
+		}
+
+		// Load some functions into response handlers.
+		xhr.onload = function () {
+				var responseStr = xhr.responseText; // get the JSON string
+				var object = JSON.parse(responseStr); // turn it into an object
+				console.log(JSON.stringify(object, undefined, 2)); // print it out as a string, nicely formatted
+				username = object.firstname + " " + object.lastname;
+				bottom = React.createElement(
+						"div",
+						{ id: "bottom" },
+						username
+				);
+				answer_page = React.createElement(
+						"main",
+						null,
+						answer_top_div,
+						answer_cards_div,
+						answer_next_div,
+						bottom
+				);
+				main_page = React.createElement(
+						"main",
+						null,
+						main_top_div,
+						main_cards_div,
+						main_save_div,
+						bottom
+				);
+				makeDataRequest();
+		};
+
+		xhr.onerror = function () {
+				alert('Woops, there was an error making the request.');
+		};
+
+		// Actually send request to server
+		xhr.send();
 }
 
 // Make the actual CORS request.

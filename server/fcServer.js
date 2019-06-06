@@ -174,6 +174,13 @@ function dataGetter(req, res, next) {
     res.json(req.user);
 }
 
+function usernameGetter(req, res, next) {
+  userdb.all ( 'SELECT * FROM Users WHERE id = ' + req.session.passport.user, dataCallback);
+  function dataCallback( err, data ) {
+    res.json(data[0])
+  }
+}
+
 function fileNotFound(req, res) {
     let url = req.url;
     res.type('text/plain');
@@ -228,6 +235,7 @@ app.get('/user/*',
 app.get('/store', storeHandler);   // if not, is it a valid translate?
 app.get('/translate', translateHandler);   // if not, is it a valid translate?
 app.get('/data', dataGetter);
+app.get('/username', usernameGetter);
 app.use( fileNotFound );            // otherwise not found
 
 app.listen(port, function (){console.log('Listening...');} )

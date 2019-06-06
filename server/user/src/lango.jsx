@@ -62,14 +62,14 @@ const main_save_div = (
 		</div>
 );
 
-const username = "UserName";
+let username = "UserName";
 
-const bottom = (<div id="bottom">{username}</div>);
+let bottom = (<div id="bottom">{username}</div>);
 
 // An element with some contents, including a variable
 // that has to be evaluated to get an element, and some
 // functions that have to be run to get elements.
-const main_page = (<main>
+let main_page = (<main>
 		{main_top_div}
 		{main_cards_div}
 		{main_save_div}
@@ -127,7 +127,7 @@ const answer_next_div = (
 		</div>
 );
 
-const answer_page = (
+let answer_page = (
 		<main>
 				{answer_top_div}
 				{answer_cards_div}
@@ -146,7 +146,7 @@ function checkReturn(event) {
 
 
 // Beginning
-makeDataRequest();
+makeUsernameRequest();
 
 
 
@@ -155,6 +155,51 @@ function createCORSRequest(method, url) {
 	   let xhr = new XMLHttpRequest();
 	   xhr.open(method, url, true);  // call its open method
 	   return xhr;
+}
+
+function makeUsernameRequest() {
+
+	   let url = "/username";
+
+	   let xhr = createCORSRequest('GET', url);
+
+	   // checking if browser does CORS
+	   if (!xhr) {
+	     alert('CORS not supported');
+	     return;
+	   }
+
+	   // Load some functions into response handlers.
+	   xhr.onload = function() {
+	       let responseStr = xhr.responseText;  // get the JSON string
+	       let object = JSON.parse(responseStr);  // turn it into an object
+	       console.log(JSON.stringify(object, undefined, 2));  // print it out as a string, nicely formatted
+				 username = object.firstname + " " + object.lastname;
+         bottom = (<div id="bottom">{username}</div>);
+         answer_page = (
+             <main>
+                 {answer_top_div}
+                 {answer_cards_div}
+                 {answer_next_div}
+                 {bottom}
+             </main>
+         );
+         main_page = (<main>
+         		{main_top_div}
+         		{main_cards_div}
+         		{main_save_div}
+         		{bottom}
+         	      </main>
+         );
+         makeDataRequest();
+	   };
+
+	   xhr.onerror = function() {
+	     alert('Woops, there was an error making the request.');
+	   };
+
+	   // Actually send request to server
+	   xhr.send();
 }
 
 // Make the actual CORS request.
