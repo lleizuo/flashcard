@@ -454,7 +454,7 @@ function makeStoreRequest() {
 // Make the actual CORS request.
 function seenHandler(english,new_seen) {
 
-	   let url = "/seen?id=" + dataarray.gid + "&english=" + english + "&new="+new_seen;
+	   let url = "/seen?id=" + dataarray.thedata[0].user + "&english=" + english + "&new="+new_seen;
 
 	   let xhr = createCORSRequest('GET', url);
 
@@ -483,7 +483,7 @@ function seenHandler(english,new_seen) {
 // Make the actual CORS request.
 function correctHandler(english,new_correct) {
 
-	   let url = "/correct?id=" + dataarray.gid + "&english=" + english + "&new="+new_correct;
+	   let url = "/correct?id=" + dataarray.thedata[0].user + "&english=" + english + "&new="+new_seen;
 
 	   let xhr = createCORSRequest('GET', url);
 

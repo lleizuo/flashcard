@@ -172,6 +172,7 @@ function storeHandler(req, res, next) {
       if(!existed) {
         // database command
         const cmdInsertStr = 'INSERT into Flashcards (user, english, korean, seen, correct) VALUES (@0, @1, @2, 0, 0)';
+        console.log("The command : " + cmdInsertStr );
         db.run(cmdInsertStr, req.session.passport.user, eng, kor, tableInsertionCallback);
       }
       res.json({});
@@ -196,10 +197,11 @@ function seenAdder(req, res, next) {
     let qObj = req.query;
     console.log(qObj);
     if(qObj.id != undefined && qObj.english != undefined && qObj.new != undefined) {
+        setTimeout(function(){}, 2000);
         // database command
-        const cmdUpdateStr = 'UPDATE Flashcards SET seen = ' + qObj.new +  ' WHERE english = ' +qObj.english;
+        const cmdUpdateStr = 'UPDATE Flashcards SET seen = ' + qObj.new + ' WHERE english = @0 AND user = ' + qObj.id;
         console.log("The command : " + cmdUpdateStr );
-        db.run(cmdUpdateStr, tableUpdateCallback);
+        db.run(cmdUpdateStr, qObj.english, tableUpdateCallback);
       res.json({});
     } else {
       next();
@@ -211,7 +213,6 @@ function correctAdder(req, res, next) {
     let qObj = req.query;
     console.log(qObj);
     if(qObj.id != undefined && qObj.english != undefined && qObj.new != undefined) {
-        setTimeout(function(){}, 2000);
         // database command
         const cmdInsertStr = 'UPDATE Flashcards SET correct = @2 WHERE user=@0 AND english= @1';
         db.run(cmdInsertStr, qObj.id, qObj.english, qObj.new, tableUpdateCallback);
