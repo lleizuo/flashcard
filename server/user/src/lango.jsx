@@ -109,12 +109,60 @@ const answer_cards_div = (
 		</div>
 );
 
+// React component for the front side of the card
+class CardFront extends React.Component {
+  render(props) {
+    return(
+      <div className='card-side side-front'>
+         <div className='card-side-container'>
+              <h2 id='trans'>{this.props.text}</h2>
+        </div>
+      </div>
+    )
+  }
+}
+
+// React component for the back side of the card
+class CardBack extends React.Component {
+  render(props) {
+    return(
+      <div className='card-side side-back'>
+         <div className='card-side-container'>
+              <h2 id='congrats'>{this.props.text}</h2>
+        </div>
+      </div>
+    )
+  }
+}
+
 function AnswerTargetCard() {
-	 return (<div id="answer1" className="textCard">
+    let front_text = dataarray.thedata[0].korean;
+    let back_text = dataarray.thedata[0].english;
+	 return (<div id="answer1" className="textCard"  onClick={MyFlip}>
 	 			{refresh}
-			 <p id="answertargetcard">Korean Word</p>
-			 		</div>);
-	 }
+        <div className='card-body'>
+          <CardBack text={back_text} />
+
+          <CardFront text={front_text} />
+
+          </div>
+			</div>);
+}
+
+let flag = 1
+
+function MyFlip() {
+  if(flag == 1) {
+    document.getElementsByClassName("card-body")[0].style.transform = "rotateY(180deg)";
+    //document.getElementById("answer1").style.transform = "rotateY(180deg)";
+    flag = 2
+  } else {
+    //document.getElementById("answer1").style.transform = "rotateY(0deg)";
+    document.getElementsByClassName("card-body")[0].style.transform = "rotateY(0deg)";
+    flag = 1
+  }
+
+}
 
 function AnswerGuessCard() {
 	return (<div id="answer2" className="textCard">

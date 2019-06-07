@@ -1,3 +1,49 @@
+/*- Card sides -*/
+.card-side {
+  position: absolute;
+  top: 0;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  color: #212121;
+
+  -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+  text-align: center;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: rgba(240,240,240,0.6)
+}
+
+/*- Back side -*/
+.side-back {
+  z-index: 2;
+  text-align: center;
+  -webkit-transform: rotateY(180deg);
+          transform: rotateY(180deg);
+}
+
+/*- Card body -*/
+.card-body {
+  width: 100%;
+  height: 100%;
+  -webkit-transform-style: preserve-3d;
+          transform-style: preserve-3d;
+  transition: all .7s linear;
+
+}
+
+#answer1:hover :hover > .card-body > .side-front {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 1s ease-in, visibility .75s linear;
+}
+
+
+
 html {
   height: 100vh;
   width: 100vw;
