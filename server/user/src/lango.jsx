@@ -82,12 +82,28 @@ let main_page = (<main>
 
 function GoAnswerPage() {
       if(dataarray.thedata.length > 0) {
+        answer_cards_div = (
+        		<div id="answercardsdiv">
+        		<AnswerTargetCard />
+        		<AnswerGuessCard />
+        		</div>
+        );
+        answer_page = (
+        		<main>
+        				{answer_top_div}
+        				{answer_cards_div}
+        				{answer_next_div}
+        				{bottom}
+        		</main>
+        );
+
         ReactDOM.render(
             answer_page,
             document.getElementById('root')
         );
         last_time_korean = undefined;
         last_time_english = undefined;
+        flag = 1;
       } else {
         alert("Create some cards first before review!");
       }
@@ -102,7 +118,7 @@ const answer_top_div = (
 
 const refresh = <img id="refresh" src={'./assets/noun_Refresh_2310283.svg'}/>
 
-const answer_cards_div = (
+let answer_cards_div = (
 		<div id="answercardsdiv">
 		<AnswerTargetCard />
 		<AnswerGuessCard />
@@ -135,10 +151,32 @@ class CardBack extends React.Component {
   }
 }
 
+function getCard() {
+  let score_list = []
+  for (var i = 0; i < dataarray.thedata.length; i++) {
+    let j = dataarray.thedata[i];
+    if(j.seen == 0) {
+      score_list[i] = Math.max(1, 5 - j.correct) + Math.max(1,5 - j.seen)
+    } else {
+      score_list[i] = Math.max(1, 5 - j.correct) + Math.max(1,5 - j.seen) + 5*((j.seen - j.correct) / j.seen);
+    }
+  }
+  let random_card =  Math.floor(Math.random() * dataarray.thedata.length);
+  let random_number = Math.floor(Math.random() * 16);
+  if(random_number <= score_list[random_card]) {
+    return random_card;
+  } else {
+    let new_number = getCard();
+    return new_number;
+  }
+}
+
 function AnswerTargetCard() {
-    let front_text = dataarray.thedata[0].korean;
-    let back_text = dataarray.thedata[0].english;
-	 return (<div id="answer1" className="textCard"  onClick={MyFlip}>
+    let the_index = getCard();
+
+    let front_text = dataarray.thedata[the_index].korean;
+    let back_text = dataarray.thedata[the_index].english;
+	 return (<div id="answer1" className="textCard"  onClick={clickHandler}>
 	 			{refresh}
         <div className='card-body'>
           <CardBack text={back_text} />
@@ -166,14 +204,29 @@ function MyFlip() {
 
 function AnswerGuessCard() {
 	return (<div id="answer2" className="textCard">
-	<textarea id="answerguesscard" placeholder="Try here!"/>
+	<textarea id="answerguesscard" placeholder="Try here!" onKeyPress={AnswerBotReturn}/>
 	</div>);
+}
+
+function AnswerBotReturn(event) {
+		if(event.charCode == 13) {
+        clickHandler();
+		}
+}
+
+function clickHandler() {
+  if(document.getElementById("answerguesscard").textContent == document.getElementById("congrats").value) {
+    // Correct answer
+  } else {
+    // Wrong answer
+  }
+  MyFlip()
 }
 
 
 const answer_next_div = (
 		<div id="answernextdiv">
-				<div className="greenbutton">
+				<div className="greenbutton" onClick={GoAnswerPage}>
 						Next
 				</div>
 		</div>

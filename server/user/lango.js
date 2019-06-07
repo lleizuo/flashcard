@@ -117,9 +117,25 @@ var main_page = React.createElement(
 
 function GoAnswerPage() {
 		if (dataarray.thedata.length > 0) {
+				answer_cards_div = React.createElement(
+						"div",
+						{ id: "answercardsdiv" },
+						React.createElement(AnswerTargetCard, null),
+						React.createElement(AnswerGuessCard, null)
+				);
+				answer_page = React.createElement(
+						"main",
+						null,
+						answer_top_div,
+						answer_cards_div,
+						answer_next_div,
+						bottom
+				);
+
 				ReactDOM.render(answer_page, document.getElementById('root'));
 				last_time_korean = undefined;
 				last_time_english = undefined;
+				flag = 1;
 		} else {
 				alert("Create some cards first before review!");
 		}
@@ -215,12 +231,34 @@ var CardBack = function (_React$Component2) {
 		return CardBack;
 }(React.Component);
 
+function getCard() {
+		var score_list = [];
+		for (var i = 0; i < dataarray.thedata.length; i++) {
+				var j = dataarray.thedata[i];
+				if (j.seen == 0) {
+						score_list[i] = Math.max(1, 5 - j.correct) + Math.max(1, 5 - j.seen);
+				} else {
+						score_list[i] = Math.max(1, 5 - j.correct) + Math.max(1, 5 - j.seen) + 5 * ((j.seen - j.correct) / j.seen);
+				}
+		}
+		var random_card = Math.floor(Math.random() * dataarray.thedata.length);
+		var random_number = Math.floor(Math.random() * 16);
+		if (random_number <= score_list[random_card]) {
+				return random_card;
+		} else {
+				var new_number = getCard();
+				return new_number;
+		}
+}
+
 function AnswerTargetCard() {
-		var front_text = dataarray.thedata[0].korean;
-		var back_text = dataarray.thedata[0].english;
+		var the_index = getCard();
+
+		var front_text = dataarray.thedata[the_index].korean;
+		var back_text = dataarray.thedata[the_index].english;
 		return React.createElement(
 				"div",
-				{ id: "answer1", className: "textCard", onClick: MyFlip },
+				{ id: "answer1", className: "textCard", onClick: clickHandler },
 				refresh,
 				React.createElement(
 						"div",
@@ -249,8 +287,23 @@ function AnswerGuessCard() {
 		return React.createElement(
 				"div",
 				{ id: "answer2", className: "textCard" },
-				React.createElement("textarea", { id: "answerguesscard", placeholder: "Try here!" })
+				React.createElement("textarea", { id: "answerguesscard", placeholder: "Try here!", onKeyPress: AnswerBotReturn })
 		);
+}
+
+function AnswerBotReturn(event) {
+		if (event.charCode == 13) {
+				clickHandler();
+		}
+}
+
+function clickHandler() {
+		if (document.getElementById("answerguesscard").textContent == document.getElementById("congrats").value) {
+				// Correct answer
+		} else {
+						// Wrong answer
+				}
+		MyFlip();
 }
 
 var answer_next_div = React.createElement(
@@ -258,7 +311,7 @@ var answer_next_div = React.createElement(
 		{ id: "answernextdiv" },
 		React.createElement(
 				"div",
-				{ className: "greenbutton" },
+				{ className: "greenbutton", onClick: GoAnswerPage },
 				"Next"
 		)
 );
