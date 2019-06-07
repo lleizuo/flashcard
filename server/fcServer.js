@@ -73,6 +73,16 @@ function tableInsertionCallback(err) {
     }
 }
 
+function tableUpdateCallback(err) {
+    if (err) {
+	console.log("Table update error",err);
+    } else {
+	console.log("Data updated.");
+  dumpDB();
+  userdumpDB();
+    }
+}
+
 function dumpDB() {
     db.all ( 'SELECT * FROM Flashcards', dataCallback);
     function dataCallback( err, data ) {console.log(data)}
@@ -181,6 +191,36 @@ function usernameGetter(req, res, next) {
   }
 }
 
+function seenAdder(req, res, next) {
+    let url = req.url;
+    let qObj = req.query;
+    console.log(qObj);
+    if(qObj.id != undefined && qObj.english != undefined && qObj.new != undefined) {
+        // database command
+        const cmdUpdateStr = 'UPDATE Flashcards SET seen = ' + qObj.new +  ' WHERE english = ' +qObj.english;
+        console.log("The command : " + cmdUpdateStr );
+        db.run(cmdUpdateStr, tableUpdateCallback);
+      res.json({});
+    } else {
+      next();
+    }
+}
+
+function correctAdder(req, res, next) {
+    let url = req.url;
+    let qObj = req.query;
+    console.log(qObj);
+    if(qObj.id != undefined && qObj.english != undefined && qObj.new != undefined) {
+        setTimeout(function(){}, 2000);
+        // database command
+        const cmdInsertStr = 'UPDATE Flashcards SET correct = @2 WHERE user=@0 AND english= @1';
+        db.run(cmdInsertStr, qObj.id, qObj.english, qObj.new, tableUpdateCallback);
+      res.json({});
+    } else {
+      next();
+    }
+}
+
 function fileNotFound(req, res) {
     let url = req.url;
     res.type('text/plain');
@@ -236,6 +276,8 @@ app.get('/store', storeHandler);   // if not, is it a valid translate?
 app.get('/translate', translateHandler);   // if not, is it a valid translate?
 app.get('/data', dataGetter);
 app.get('/username', usernameGetter);
+app.get('/seen', seenAdder);
+app.get('/correct', correctAdder);
 app.use( fileNotFound );            // otherwise not found
 
 app.listen(port, function (){console.log('Listening...');} )

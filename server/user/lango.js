@@ -254,6 +254,8 @@ function getCard() {
 function AnswerTargetCard() {
 		var the_index = getCard();
 
+		seenHandler(dataarray.thedata[the_index].english, dataarray.thedata[the_index].seen + 1);
+
 		var front_text = dataarray.thedata[the_index].korean;
 		var back_text = dataarray.thedata[the_index].english;
 		return React.createElement(
@@ -502,6 +504,64 @@ function makeStoreRequest() {
 		}
 
 		var url = "/store?english=" + last_time_english + "&korean=" + last_time_korean;
+
+		var xhr = createCORSRequest('GET', url);
+
+		// checking if browser does CORS
+		if (!xhr) {
+				alert('CORS not supported');
+				return;
+		}
+
+		// Load some functions into response handlers.
+		xhr.onload = function () {
+				var responseStr = xhr.responseText; // get the JSON string
+				var object = JSON.parse(responseStr); // turn it into an object
+				console.log(JSON.stringify(object, undefined, 2)); // print it out as a string, nicely formatted
+				updateLocal();
+		};
+
+		xhr.onerror = function () {
+				alert('Woops, there was an error making the request.');
+		};
+
+		// Actually send request to server
+		xhr.send();
+}
+
+// Make the actual CORS request.
+function seenHandler(english, new_seen) {
+
+		var url = "/seen?id=" + dataarray.gid + "&english=" + english + "&new=" + new_seen;
+
+		var xhr = createCORSRequest('GET', url);
+
+		// checking if browser does CORS
+		if (!xhr) {
+				alert('CORS not supported');
+				return;
+		}
+
+		// Load some functions into response handlers.
+		xhr.onload = function () {
+				var responseStr = xhr.responseText; // get the JSON string
+				var object = JSON.parse(responseStr); // turn it into an object
+				console.log(JSON.stringify(object, undefined, 2)); // print it out as a string, nicely formatted
+				updateLocal();
+		};
+
+		xhr.onerror = function () {
+				alert('Woops, there was an error making the request.');
+		};
+
+		// Actually send request to server
+		xhr.send();
+}
+
+// Make the actual CORS request.
+function correctHandler(english, new_correct) {
+
+		var url = "/correct?id=" + dataarray.gid + "&english=" + english + "&new=" + new_correct;
 
 		var xhr = createCORSRequest('GET', url);
 
