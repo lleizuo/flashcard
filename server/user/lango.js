@@ -14,6 +14,8 @@ var last_time_korean = undefined;
 
 var dataarray = undefined;
 
+var current_index = 0;
+
 // Main Page
 
 function GoMainPage() {
@@ -253,6 +255,7 @@ function getCard() {
 
 function AnswerTargetCard() {
 		var the_index = getCard();
+		current_index = the_index;
 
 		seenHandler(dataarray.thedata[the_index].english, dataarray.thedata[the_index].seen + 1);
 
@@ -300,12 +303,18 @@ function AnswerBotReturn(event) {
 }
 
 function clickHandler() {
-		if (document.getElementById("answerguesscard").textContent == document.getElementById("congrats").value) {
+		if (document.getElementById("answerguesscard").value.trim() == document.getElementById("congrats").textContent.trim()) {
 				// Correct answer
+				document.getElementById("congrats").textContent = "Correct!";
+				MyFlip();
+				correctHandler(dataarray.thedata[current_index].english, dataarray.thedata[current_index].correct + 1);
 		} else {
-						// Wrong answer
-				}
-		MyFlip();
+				// Wrong answer
+				MyFlip();
+				setTimeout(function () {
+						MyFlip();
+				}, 3000);
+		}
 }
 
 var answer_next_div = React.createElement(
@@ -561,7 +570,7 @@ function seenHandler(english, new_seen) {
 // Make the actual CORS request.
 function correctHandler(english, new_correct) {
 
-		var url = "/correct?id=" + dataarray.thedata[0].user + "&english=" + english + "&new=" + new_seen;
+		var url = "/correct?id=" + dataarray.thedata[0].user + "&english=" + english + "&new=" + new_correct;
 
 		var xhr = createCORSRequest('GET', url);
 

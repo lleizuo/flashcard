@@ -197,7 +197,6 @@ function seenAdder(req, res, next) {
     let qObj = req.query;
     console.log(qObj);
     if(qObj.id != undefined && qObj.english != undefined && qObj.new != undefined) {
-        setTimeout(function(){}, 2000);
         // database command
         const cmdUpdateStr = 'UPDATE Flashcards SET seen = ' + qObj.new + ' WHERE english = @0 AND user = ' + qObj.id;
         console.log("The command : " + cmdUpdateStr );
@@ -214,8 +213,9 @@ function correctAdder(req, res, next) {
     console.log(qObj);
     if(qObj.id != undefined && qObj.english != undefined && qObj.new != undefined) {
         // database command
-        const cmdInsertStr = 'UPDATE Flashcards SET correct = @2 WHERE user=@0 AND english= @1';
-        db.run(cmdInsertStr, qObj.id, qObj.english, qObj.new, tableUpdateCallback);
+        const cmdUpdateStr = 'UPDATE Flashcards SET correct = ' + qObj.new + ' WHERE english = @0 AND user = ' + qObj.id;
+        console.log("The command : " + cmdUpdateStr );
+        db.run(cmdUpdateStr, qObj.english, tableUpdateCallback);
       res.json({});
     } else {
       next();
