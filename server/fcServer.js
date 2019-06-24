@@ -4,7 +4,7 @@
 const APIrequest = require('request');
 const http = require('http');
 
-const APIkey = "AIzaSyB7HQtScB7iV0sQBeJd0yJAKlbi_1F7wRI";
+const APIkey = // Your Translation API here
 const apiurl = "https://translation.googleapis.com/language/translate/v2?key="+APIkey
 
 const express = require('express')
@@ -16,8 +16,8 @@ const cookieSession = require('cookie-session');
 const GoogleStrategy = require('passport-google-oauth20');
 
 const googleLoginData = {
-    clientID: '144960018877-6v74ckd48030657bb1lg30b6g0io3pra.apps.googleusercontent.com',
-    clientSecret: 'CUwENqevo9xBVKBKXnWh1Syy',
+    clientID: '',
+    clientSecret: '',
     callbackURL: '/auth/accepted'
 };
 
