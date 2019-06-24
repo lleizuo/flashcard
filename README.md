@@ -27,7 +27,7 @@ Part 1 finished. Also finished most of the mock-up.
 
 ## Resource
 
-Port number: The port number on server.
+Port number: The port number on server.  
 Google API: Use your Google Translation API.
 
 
