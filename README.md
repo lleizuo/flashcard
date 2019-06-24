@@ -22,7 +22,7 @@ node fcServer.js
 [http://server162.site:59353/login.html](http://server162.site:59353/login.html)
 
 ## Progress
-Part 1 finished. Also finished most of the mock-up. 
+All finished. The flipping card feature is really good.
 
 
 ## Resource
